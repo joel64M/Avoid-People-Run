@@ -4,18 +4,22 @@ using UnityEngine;
 using PathCreation;
 public class AiStartDestination : MonoBehaviour
 {
-    [SerializeField] Transform startObj;
-    [SerializeField] Transform destinationObj;
     [SerializeField] GameObject startEndObj;
     [SerializeField] PathCreator pc;
 
     private void Start()
     {
         pc = GetComponent<PathCreator>();
-        GameObject go = Instantiate(startEndObj, this.transform);
-        go.transform.position =  new Vector3(pc.path.localPoints[0].x, -0.065f, pc.path.localPoints[0].z);
-       go = Instantiate(startEndObj, this.transform);
-        go.transform.position = new Vector3(pc.path.localPoints[pc.path.localPoints.Length - 1].x, -0.065f, pc.path.localPoints[pc.path.localPoints.Length - 1].z);
+        if (!pc.path.isClosedLoop)
+        {
+         
+            GameObject go = Instantiate(startEndObj, this.transform);
+            go.transform.position = new Vector3(pc.path.localPoints[0].x, -0.065f, pc.path.localPoints[0].z);
+
+            go = Instantiate(startEndObj, this.transform);
+            go.transform.position = new Vector3(pc.path.localPoints[pc.path.localPoints.Length - 1].x, -0.065f, pc.path.localPoints[pc.path.localPoints.Length - 1].z);
+
+        }
 
     }
 

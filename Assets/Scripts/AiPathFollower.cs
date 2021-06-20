@@ -18,28 +18,35 @@ public class AiPathFollower : PathFollower
     {
         if (pathCreator != null)
         {
-
-            if (!changeDir)
+            if(endOfPathInstruction == PathCreation.EndOfPathInstruction.Reverse)
             {
-                distanceTravelled += speed * Time.deltaTime;
-                transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
-                transform.eulerAngles = transform.eulerAngles + new Vector3(0, 0, 90);
+                if (!changeDir)
+                {
+                    distanceTravelled += speed * Time.deltaTime;
+                    transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                    transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                    transform.eulerAngles = transform.eulerAngles + new Vector3(0, 0, 90);
+                }
+                else
+                {
+                    distanceTravelled += speed * Time.deltaTime;
+                    transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                    transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                    transform.eulerAngles = transform.eulerAngles + new Vector3(0, 180, 90);
+                }
+
+                completion = Mathf.Round((distanceTravelled / pathCreator.path.length) * 100) - subtractor;
+                if (completion >= 100)
+                {
+                    changeDir = !changeDir;
+                    subtractor += 100;
+                }
             }
             else
             {
-                distanceTravelled += speed * Time.deltaTime;
-                transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
-                transform.eulerAngles = transform.eulerAngles + new Vector3(0, 180, 90);
+                base.Update();
             }
-
-            completion = Mathf.Round((distanceTravelled /pathCreator.path.length) * 100) -subtractor;
-            if (completion >= 100)
-            {
-                changeDir = !changeDir;
-                subtractor += 100;
-            }
+         
         }
     }
 
