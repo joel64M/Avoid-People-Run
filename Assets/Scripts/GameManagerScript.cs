@@ -11,7 +11,7 @@ public class GameManagerScript : MonoBehaviour
     public bool DeletePlayerPrefs;
     public int level = 0;
     Transform playerTransform;
-
+    [SerializeField] bool loadLevel;
     [SerializeField] GameObject celebrationObj;
 
     public List<Statistics> stats = new List<Statistics>();
@@ -61,6 +61,7 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
         // isGameStart = true;
+        if(loadLevel)
       LoadLevel();
     }
 
